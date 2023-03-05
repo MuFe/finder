@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">finder</string>
+    <string name="bottom_home">finder</string>
+    <string name="bottom_scan">Scan</string>
+    <string name="bottom_detect">Detect</string>
+    <string name="bottom_instructions">Instructions</string>
+    <string name="bottom_setting">Setting</string>
+    <string name="title_setting">Setting</string>
+    <string name="title_scan">Scan</string>
+    <string name="title_detect">Detect</string>
+    <string name="title_instructions">Instructions</string>
+</resources>

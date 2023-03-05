@@ -1,0 +1,81 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
+
+android {
+    namespace 'com.camera.finder'
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "com.camera.finder"
+        minSdk 28
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('../app/keystore.jks')
+            storePassword '123456'
+            keyAlias = 'key'
+            keyPassword '123456'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        dataBinding true
+        viewBinding true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.github.MuFe:mvvm:8.2'
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation "io.insert-koin:koin-core:3.1.1"
+    implementation "io.insert-koin:koin-android:3.1.1"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.4.1"
+    implementation "androidx.navigation:navigation-ui-ktx:2.4.1"
+    implementation "androidx.camera:camera-view:1.1.0-beta02"
+    implementation "androidx.camera:camera-extensions:1.1.0-beta02"
+    implementation "androidx.camera:camera-lifecycle:1.1.0-beta02"
+    implementation 'com.quickbirdstudios:opencv:4.5.3.0'
+
+    // For Kotlin users also import the Kotlin extensions library for Play Core:
+    implementation("com.google.android.play:core-ktx:1.8.1")
+    implementation "com.android.billingclient:billing:4.1.0"
+    implementation 'com.github.rafakob:NsdHelper:0.1.4'
+
+
+    // For Kotlin users also import the Kotlin extensions library for Play Core:
+
+}
