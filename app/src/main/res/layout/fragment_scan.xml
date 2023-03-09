@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.camera.finder.ui.ScanViewModel" />
+
+
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/scan_title"
+            android:textColor="@color/white"
+            android:textSize="32dp"
+            android:textStyle="bold" />
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="30dp">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/scan_bg" />
+
+                    <FrameLayout
+                        android:id="@+id/hotLay"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginTop="100dp"
+                        android:layout_marginEnd="40dp"
+                        android:layout_marginBottom="40dp" />
+                </FrameLayout>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    isGone="@{vm.isError}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@{@string/scan_wifi_tip+vm.wifi}"
+                    android:textColor="@color/white"
+                    android:textSize="18dp" />
+
+                <TextView
+                    isGone="@{!vm.isError}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@{@string/scan_error}"
+                    android:textColor="@color/ff5c5c"
+                    android:textSize="18dp" />
+
+                <LinearLayout
+                    isInvisible="@{!vm.isFinish}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{@string/scan_device_tip+vm.num}"
+                        android:textSize="24dp"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/ff5c5c"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/scan_restart_btn"
+                        android:drawableStart="@drawable/restore"
+                        android:textSize="18dp"
+                        android:drawablePadding="3dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="8dp"
+                        android:onClick="@{()->vm.reStart()}"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/white"/>
+                </LinearLayout>
+                <TextView
+                    isGone="@{vm.isScan}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/f416ff9_16"
+                    android:gravity="center"
+                    android:onClick="@{()->vm.start()}"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:text="@{vm.isFinish?@string/scan_finish_btn:@string/scan_btn}"
+                    android:textColor="@color/white"
+                    android:textSize="18dp" />
+
+                <FrameLayout
+                    android:id="@+id/lay"
+                    isGone="@{!vm.isScan}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/f9bb0f6_16">
+
+                    <TextView
+                        android:id="@+id/progress"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/f416ff9_half_16"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:text="   "
+                        android:textColor="@color/white"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:text="@string/scan_start_btn"
+                        android:textColor="@color/white"
+                        android:textSize="18dp" />
+                </FrameLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</layout>

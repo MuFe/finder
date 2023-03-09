@@ -6,7 +6,71 @@
     <string name="bottom_instructions">Instructions</string>
     <string name="bottom_setting">Setting</string>
     <string name="title_setting">Setting</string>
+    <string name="title_guide">Guide</string>
     <string name="title_scan">Scan</string>
+    <string name="title_detail">Detail</string>
     <string name="title_detect">Detect</string>
     <string name="title_instructions">Instructions</string>
+
+    <string name="scan_title">Glint Finder</string>
+    <string name="scan_btn">Start Detection</string>
+    <string name="scan_finish_btn">View Results</string>
+    <string name="scan_start_btn">checking...</string>
+    <string name="scan_restart_btn">Recheck</string>
+    <string name="scan_device_tip">Suspicious device found : </string>
+    <string name="scan_wifi_tip">Wi-fi Connect:</string>
+    <string name="scan_error">Please connect to Wi-Fi and try again</string>
+
+    <string name="guide_btn">Coutinue</string>
+    <string name="guide_first_tip">Best Hidden Camera Detector</string>
+    <string name="guide_first_tip1">Protect your privacy from spy hidden\n camera lenses.</string>
+    <string name="guide_second_tip">Rate Us</string>
+    <string name="guide_second_tip1">If you like Glint Finder, show us some\n love with a nice review: it really helps.</string>
+
+    <string name="setting_title">Setting</string>
+    <string name="setting_restore">Restore</string>
+    <string name="setting_feedback">Feedback</string>
+    <string name="setting_share">Share with friends</string>
+    <string name="setting_rate">Rate us</string>
+    <string name="setting_privacy">Privacy Policy</string>
+    <string name="setting_terms">Terms of use</string>
+    <string name="setting_tip">Get Full Access！</string>
+    <string name="setting_tip1">When you subscribe, you’ll gain instant\n unlimited access</string>
+
+    <string name="in_title">Instructions</string>
+    <string name="in_dialog_btn">I know</string>
+    <string name="in_night_tip">NightStand</string>
+    <string name="in_night_info">Most bedroom have nightstands, right. So\n one of the best places to put a hidden </string>
+    <string name="in_night_info_detail">Most bedroom have nightstands, right. So one of the best places to put a hidden camera into would be a nightstand, behind some regular object, like a clock or radio. You could get a hidden camera already built into a clock and put it right on the nightstand.</string>
+    <string name="in_tv_tip">TV Set</string>
+    <string name="in_tv_info">Many people have TV\'s in bedrooms. So putting a tiny camera near the TV or on</string>
+    <string name="in_tv_info_detail">Many people have TV\'s in bedrooms. So putting a tiny camera near the TV or on top of TV would be a good idea. Of course, the spy camera should be hidden and not look like a spy camera.</string>
+    <string name="in_pc_tip">PC</string>
+    <string name="in_pc_info">Some people have PC\'s in their bedrooms.One could simply replace the</string>
+    <string name="in_pc_info_detail">Some people have PC\'s in their bedrooms.One could simply replace the regular speakers with new ones, which already have a spy camera installed and perform secret surveillance this way.</string>
+    <string name="in_book_tip">Book Shelf</string>
+    <string name="in_book_info">Placing a hidden camera in a book shelf might be a good idea. Especially when the</string>
+    <string name="in_book_info_detail">Placing a hidden camera in a book shelf might be a good idea. Especially when the hidden camera is in a shape of the book.</string>
+    <string name="in_rod_tip">Curtain-Rod</string>
+    <string name="in_rod_info">Another place could be a curtain-rod. If you can get a tiny spy camera, which is barely</string>
+    <string name="in_rod_info_detail">Another place could be a curtain-rod. If you can get a tiny spy camera, which is barely seen from a 10 feet distance, you could mount it on the top of the curtain or curtain-rod. You could get much better viewing angle and record everything without much trouble.</string>
+    <string name="in_light_tip">Light</string>
+    <string name="in_light_info">You could take one light bulb or lamp out and put a spy camera inside. Then put the</string>
+    <string name="in_light_info_detail">You could take one light bulb or lamp out and put a spy camera inside. Then put the light back and start surveillance. Just make sure than someone doesn\'t try to repair it.</string>
+    <string name="in_flower_tip">Flowers</string>
+    <string name="in_flower_info">You could put a small camera inside a flower pot and put it on a windowsill for</string>
+    <string name="in_flower_info_detail">You could put a small camera inside a flower pot and put it on a windowsill for instance. If you have some flowers in the living room or plants, this won\'t look odd.</string>
+    <string name="in_switch_tip">Switches</string>
+    <string name="in_switch_info">Tiny cameras could be placed into light switches. Some light switches have covers</string>
+    <string name="in_switch_info_detail">Tiny cameras could be placed into light switches. Some light switches have covers, which help mask the spy camera\'s lenses.</string>
+    <string name="in_mirror_tip">Mirrors</string>
+    <string name="in_mirror_info">Remember to find hidden cameras in the mirrors in the toilet, changing or trial</string>
+    <string name="in_mirror_info_detail">Remember to find hidden cameras in the mirrors in the toilet, changing or trial rooms, etc. As you may know, some awful guys would install a hidden spy camera on the other side of a mirror that is see-through, while the other side looks the same as a normal mirror.</string>
+
+
+    <string name="device_title">Suspicious device</string>
+    <string name="device_warning_tip">suspicious devices found</string>
+    <string name="device_warning">Warning:</string>
+    <string name="permission_tip">We need Read Permission to scan </string>
+    <string name="permission_btb">Enter</string>
 </resources>

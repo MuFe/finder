@@ -27,9 +27,12 @@ class MainActivityViewModel(
 
 
 
-
-
-
+    fun delayStart(listener:()->Unit){
+        viewModelScope.launch {
+            delay(1000)
+            listener()
+        }
+    }
     sealed class ViewModelEvent {
 
     }

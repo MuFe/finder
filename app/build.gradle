@@ -75,7 +75,7 @@ dependencies {
     implementation "com.android.billingclient:billing:4.1.0"
     implementation 'com.github.rafakob:NsdHelper:0.1.4'
 
-
+    implementation 'com.jaeger.statusbarutil:library:1.5.1'
     // For Kotlin users also import the Kotlin extensions library for Play Core:
 
 }

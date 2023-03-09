@@ -13,9 +13,9 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/container"
+        android:background="@color/black"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <LinearLayout
             isGone="@{vm.isHide}"
@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal"
+            android:background="@drawable/bottom_bg"
             android:paddingTop="10dp"
             android:paddingBottom="10dp">
 
@@ -32,13 +33,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{() -> vm.goHome()}"
+                android:onClick="@{() -> vm.goScan()}"
                 android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                     />
+                     android:src="@{vm.index==0?@drawable/scan_p:@drawable/scan}"/>
 
                 <TextView
                     android:id="@+id/bottom_sport_text"
@@ -55,13 +56,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{() -> vm.goData()}"
+                android:onClick="@{() -> vm.goDetect()}"
                 android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                   />
+                    android:src="@{vm.index==1?@drawable/detect_p:@drawable/detect}"/>
 
                 <TextView
                     android:id="@+id/bottom_order_text"
@@ -78,13 +79,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{() -> vm.goMy()}"
+                android:onClick="@{() -> vm.goInstruction()}"
                 android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    />
+                    android:src="@{vm.index==2?@drawable/instruction_p:@drawable/instruction}" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -100,13 +101,13 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:onClick="@{() -> vm.goMy()}"
+                android:onClick="@{() -> vm.goSetting()}"
                 android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                     />
+                    android:src="@{vm.index==3?@drawable/setting_p:@drawable/setting}" />
 
                 <TextView
                     android:layout_width="wrap_content"

@@ -5,6 +5,40 @@
     android:id="@+id/mobile_navigation"
    >
 
+    <fragment
+        android:id="@+id/navigation_scan"
+        android:name="com.camera.finder.ui.ScanFragment"
+        android:label="@string/title_scan"
+        tools:layout="@layout/fragment_scan" />
 
+    <fragment
+        android:id="@+id/navigation_setting"
+        android:name="com.camera.finder.ui.SettingFragment"
+        android:label="@string/title_setting"
+        tools:layout="@layout/fragment_setting" />
+
+    <fragment
+        android:id="@+id/navigation_detect"
+        android:name="com.camera.finder.ui.DetectFragment"
+        android:label="@string/title_detect"
+        tools:layout="@layout/fragment_detect" />
+
+    <fragment
+        android:id="@+id/navigation_guide"
+        android:name="com.camera.finder.ui.GuideFragment"
+        android:label="@string/title_guide"
+        tools:layout="@layout/fragment_guide" />
+
+    <fragment
+        android:id="@+id/navigation_instruction"
+        android:name="com.camera.finder.ui.InstructionFragment"
+        android:label="@string/bottom_instructions"
+        tools:layout="@layout/fragment_instruction" />
+
+    <fragment
+        android:id="@+id/navigation_scan_detail"
+        android:name="com.camera.finder.ui.ScanDetailFragment"
+        android:label="@string/title_detail"
+        tools:layout="@layout/fragment_detail" />
 </navigation>
 
