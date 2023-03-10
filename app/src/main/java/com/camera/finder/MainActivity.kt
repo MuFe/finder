@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity(), MainHost {
         mVm.initGoogle(this)
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
         val navGraph = navController.navInflater.inflate(R.navigation.mobile_navigation)
-        if(!mPreferenceUtil.isFirst()){
+        if(mPreferenceUtil.isFirst()){
             navGraph.setStartDestination(R.id.navigation_guide)
         }else{
             navGraph.setStartDestination(R.id.navigation_scan)

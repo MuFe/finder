@@ -19,10 +19,14 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.MutableLiveData
+import com.camera.finder.R
 import com.camera.finder.databinding.FragmentDetectBinding
 import com.camera.finder.util.ImageUtil
 import com.google.common.util.concurrent.ListenableFuture
+import com.jaeger.library.StatusBarUtil
 import com.mufe.mvvm.library.extension.checkPermissions
+import com.mufe.mvvm.library.util.DpUtil
+import org.koin.android.ext.android.inject
 import org.opencv.android.OpenCVLoader
 import org.opencv.android.Utils
 import org.opencv.core.*
@@ -35,7 +39,7 @@ class DetectFragment : BaseFragment() {
     private lateinit var camera: Camera
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
     private val executorService = Executors.newSingleThreadExecutor()
-
+    private val dpUtil:DpUtil by inject()
     companion object {
         init {
             if (!OpenCVLoader.initDebug())
@@ -61,6 +65,9 @@ class DetectFragment : BaseFragment() {
     val hide = MutableLiveData<Boolean>()
     var point: Point? = null
     var lastTime = 0L
+    val isFinish = MutableLiveData<Boolean>()
+    val isFound = MutableLiveData<Boolean>()
+    val isScan = MutableLiveData<Boolean>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
@@ -70,7 +77,29 @@ class DetectFragment : BaseFragment() {
         mBinding.vm = this
         isBack.value = true
         hide.value = true
+        isScan.value = false
+        isFound.value = false
+        isFinish.value = false
+//        mBinding.masked.set
+        val lay=mBinding.scan.layoutParams
+        lay.height=requireContext().resources.displayMetrics.widthPixels-dpUtil.dpToPx(requireContext(),26)
+        mBinding.scan.layoutParams=lay
+        val lay1=mBinding.lay.layoutParams
+        lay1.height=lay.height+dpUtil.dpToPx(requireContext(),116)
+        mBinding.lay.layoutParams=lay1
         return mBinding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        StatusBarUtil.setTranslucentForImageViewInFragment(requireActivity(),0,mBinding.previewView)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requireActivity().getWindow().getDecorView()
+            .setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+        requireActivity().getWindow().setStatusBarColor(resources.getColor(R.color.black));
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -98,10 +127,6 @@ class DetectFragment : BaseFragment() {
         parseStoragePermission(true)
     }
 
-    fun change() {
-        isBack.value = !isBack.value!!
-        initBind()
-    }
 
     @RequiresApi(23)
     private fun isPermissionsGranted(): Boolean {
@@ -237,6 +262,13 @@ class DetectFragment : BaseFragment() {
         util.release();
 
         imageProxy.close()
+    }
+
+
+    fun start(){
+        isScan.value=false
+        isFinish.value=true
+        isFound.value=true
     }
 
 

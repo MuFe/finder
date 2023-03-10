@@ -28,7 +28,7 @@ class GuideFragment() : BaseFragment() {
     }
 
     fun enter1(){
-
+        mPreferenceUtil.setFirst()
         (requireActivity() as MainHost).resetNavToHome()
     }
 

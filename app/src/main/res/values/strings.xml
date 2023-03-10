@@ -21,6 +21,8 @@
     <string name="scan_wifi_tip">Wi-fi Connect:</string>
     <string name="scan_error">Please connect to Wi-Fi and try again</string>
 
+    <string name="detect_tip">Please aim the lens at the detection position, and\n then press this button to start detection</string>
+
     <string name="guide_btn">Coutinue</string>
     <string name="guide_first_tip">Best Hidden Camera Detector</string>
     <string name="guide_first_tip1">Protect your privacy from spy hidden\n camera lenses.</string>

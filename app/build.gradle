@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace 'com.camera.finder'
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.camera.finder"
         minSdk 28
-        targetSdk 31
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -76,6 +76,7 @@ dependencies {
     implementation 'com.github.rafakob:NsdHelper:0.1.4'
 
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
+    implementation 'com.gitee.arcns.arc-fast:mask:1.12.0'
     // For Kotlin users also import the Kotlin extensions library for Play Core:
 
 }

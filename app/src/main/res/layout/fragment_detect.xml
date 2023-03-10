@@ -10,20 +10,16 @@
 
     </data>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black"
         android:orientation="vertical">
-
-
 
         <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentBottom="true">
+            android:layout_height="match_parent">
 
             <androidx.camera.view.PreviewView
                 android:id="@+id/previewView"
@@ -35,15 +31,132 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <ImageView
-                android:id="@+id/tip"
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                isGone="@{vm.hide}"
-                />
-
-
         </FrameLayout>
 
-    </RelativeLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal">
+
+                    <com.arc.fast.mask.MaskHollowView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="top"
+                        app:maskHollowView_hollow_margin_left="15dp"
+                        app:maskHollowView_hollow_margin_right="15dp"
+                        app:maskHollowView_hollow_margin_top="116dp"
+                        app:maskHollowView_hollow_radius="194dp"
+                        app:maskHollowView_hollow_width_ratio="1"
+                        app:maskHollowView_mask_background="#66000000" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="13dp"
+                        android:layout_marginTop="116dp"
+                        android:layout_marginEnd="13dp">
+
+                        <ImageView
+                            android:id="@+id/scan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/detect_scan" />
+
+                        <ImageView
+                            isGone="@{!(vm.isScan||vm.isFinish)}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@{vm.isScan?@drawable/detect_checking:vm.isFinish?vm.isFound?@drawable/detect_warning:@drawable/detect_safe:null}" />
+                    </FrameLayout>
+                </FrameLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="#66000000" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:background="#66000000"
+                    android:orientation="vertical"
+                    android:paddingTop="88dp"
+                    android:paddingBottom="30dp">
+
+                    <TextView
+                        isGone="@{vm.isScan}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:gravity="center"
+                        android:text="@string/detect_tip"
+                        android:textColor="@color/white"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        isGone="@{vm.isScan}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/f416ff9_16"
+                        android:gravity="center"
+                        android:onClick="@{()->vm.start()}"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:text="@{vm.isFinish?@string/scan_finish_btn:@string/scan_btn}"
+                        android:textColor="@color/white"
+                        android:textSize="18dp" />
+
+                    <FrameLayout
+                        isGone="@{!vm.isScan}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:background="@drawable/f9bb0f6_16">
+
+                        <TextView
+                            android:id="@+id/progress"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/f416ff9_half_16"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp"
+                            android:text="   "
+                            android:textColor="@color/white"
+                            android:textSize="18dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:paddingTop="15dp"
+                            android:paddingBottom="15dp"
+                            android:text="@string/scan_start_btn"
+                            android:textColor="@color/white"
+                            android:textSize="18dp" />
+                    </FrameLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </FrameLayout>
 </layout>
