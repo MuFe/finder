@@ -22,6 +22,9 @@
     <string name="scan_error">Please connect to Wi-Fi and try again</string>
 
     <string name="detect_tip">Please aim the lens at the detection position, and\n then press this button to start detection</string>
+    <string name="detect_warning_tip">Suspicious equipment detected</string>
+    <string name="detect_safe_tip">No suspicious device found</string>
+    <string name="detect_safe_tip1">The test results are for reference only</string>
 
     <string name="guide_btn">Coutinue</string>
     <string name="guide_first_tip">Best Hidden Camera Detector</string>

@@ -24,7 +24,7 @@ public class RateControl {
     private Pattern mPattern;
     private String line;
     public String indicator = null;
-    public int rate = 800; // Slow start
+    public int rate = 2000; // Slow start
 
     public RateControl() {
         mPattern = Pattern.compile(PTN);

@@ -1,6 +1,10 @@
 package com.camera.finder.ui
 
 import android.Manifest
+import android.animation.Animator
+import android.animation.Animator.AnimatorListener
+import android.animation.ValueAnimator
+import android.animation.ValueAnimator.AnimatorUpdateListener
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -15,6 +19,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.core.animation.addListener
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.setFragmentResultListener
@@ -62,12 +67,8 @@ class DetectFragment : BaseFragment() {
             parseStoragePermission(false)
         }
     val isBack = MutableLiveData<Boolean>()
-    val hide = MutableLiveData<Boolean>()
-    var point: Point? = null
-    var lastTime = 0L
-    val isFinish = MutableLiveData<Boolean>()
-    val isFound = MutableLiveData<Boolean>()
-    val isScan = MutableLiveData<Boolean>()
+    var isAn=false
+    val state = MutableLiveData<Int>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
@@ -76,11 +77,7 @@ class DetectFragment : BaseFragment() {
         mBinding.lifecycleOwner = this
         mBinding.vm = this
         isBack.value = true
-        hide.value = true
-        isScan.value = false
-        isFound.value = false
-        isFinish.value = false
-//        mBinding.masked.set
+        state.value = 0
         val lay=mBinding.scan.layoutParams
         lay.height=requireContext().resources.displayMetrics.widthPixels-dpUtil.dpToPx(requireContext(),26)
         mBinding.scan.layoutParams=lay
@@ -178,13 +175,18 @@ class DetectFragment : BaseFragment() {
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
         imageAnalysis.setAnalyzer(executorService, { imageProxy ->
-            analyze(imageProxy)
+            if(state.value==1&&isAn==false){
+                isAn=true
+                analyze(imageProxy)
+            }else{
+                imageProxy.close()
+            }
         })
         camera = cameraProvider.bindToLifecycle(
             viewLifecycleOwner,
             cameraSelector,
             imageAnalysis,
-//            preview,
+            preview,
         )  //Bind use cases to camera
     }
 
@@ -220,36 +222,14 @@ class DetectFragment : BaseFragment() {
         ) //执行轮廓提取
 
         var maxArea = 0.0
-        var rect: Rect? = null
-        if (contours.size < 3) {
-
-        }
+        var isHave=false
         for ((i, wrapper) in contours.withIndex()) {
             val area = Imgproc.contourArea(wrapper)
             if (area < 200 && area > 100) {
                 if (area > maxArea) {
                     maxArea = area
-                    rect = Imgproc.boundingRect(wrapper) //将该区域转为Rect矩形对象
+                    isHave=true
                 }
-            }
-        }
-
-        //得到最大的对象
-        //得到最大的对象
-        if (rect != null) {
-            lastTime = System.currentTimeMillis()
-            if (point == null) {
-                point = Point(rect.x.toDouble() - 5.0, rect.y.toDouble() - 5.0)
-            } else {
-                if (Math.abs(point!!.x - rect.x.toDouble()) > 10 || Math.abs(point!!.y - rect.y.toDouble()) > 10) {
-                    point!!.x = rect.x.toDouble() - 5.0
-                    point!!.y = rect.y.toDouble() - 5.0
-                }
-            }
-            Imgproc.circle(rgb, point, 20, Scalar(125.0, 43.0, 46.0), 4)
-        } else {
-            if (lastTime != 0L && System.currentTimeMillis() - lastTime < 3500) {
-                Imgproc.circle(rgb, point, 20, Scalar(125.0, 43.0, 46.0), 4)
             }
         }
         val bitmap5: Bitmap =
@@ -260,15 +240,54 @@ class DetectFragment : BaseFragment() {
             mBinding.image.setImageBitmap(bitmap5)
         }
         util.release();
-
         imageProxy.close()
+        requireActivity().runOnUiThread {
+           val valueAnimator = ValueAnimator.ofInt(0, 90)
+            valueAnimator.addUpdateListener(AnimatorUpdateListener { animation ->
+                val result = animation.animatedValue as Int
+                val params=mBinding.progress.layoutParams
+                params.width=mBinding.lay.measuredWidth*result/100
+                mBinding.progress.layoutParams=params
+                Log.e("TAG","111111"+"+"+result+"+"+params.width)
+            })
+            valueAnimator.addListener(object :AnimatorListener{
+                override fun onAnimationStart(p0: Animator) {
+
+                }
+
+                override fun onAnimationEnd(p0: Animator) {
+                    if(isHave){
+                        state.value=3
+                    }else{
+                        state.value=2
+                    }
+                    isAn=false
+                }
+
+                override fun onAnimationCancel(p0: Animator) {
+
+                }
+
+                override fun onAnimationRepeat(p0: Animator) {
+
+                }
+            })
+            valueAnimator.setDuration(3000)
+            valueAnimator.start()
+
+
+        }
     }
 
 
     fun start(){
-        isScan.value=false
-        isFinish.value=true
-        isFound.value=true
+        if(state.value!!>=2){
+            state.value=0
+            mBinding.image.setImageDrawable(null)
+        }else{
+            state.value=1
+        }
+
     }
 
 

@@ -8,7 +8,7 @@ import java.net.InetSocketAddress
 import java.net.Socket
 
 class ScanningUtil(val mRateControl:RateControl) {
-    private val DPORTS = intArrayOf(139, 445, 22, 80)
+    private val DPORTS = intArrayOf(80)
 
     fun startScanning(address: String): WifiData? {
        try{
@@ -16,7 +16,7 @@ class ScanningUtil(val mRateControl:RateControl) {
            val h = InetAddress.getByName(address)
            host.ipAddress = address
            host.hardwareAddress = HardwareAddress.getHardwareAddress(address)
-//           host.name=h.hostName
+           host.name=h.hostName
            if (!NetInfo.NOMAC.equals(host.hardwareAddress)) {
                return host
            }
@@ -24,7 +24,7 @@ class ScanningUtil(val mRateControl:RateControl) {
            // Native InetAddress check
 
            if (h.isReachable(getRate())) {
-             //  Log.e("TAG", "found using InetAddress ping " + address + "+" + getRate())
+               Log.e("TAG", "found using InetAddress ping " + address + "+" + getRate()+"+"+h.hostName+"+"+h.canonicalHostName)
                if (mRateControl.indicator == null) {
                    mRateControl.indicator = address
                    mRateControl.adaptRate()

@@ -1,6 +1,9 @@
 package com.camera.finder.util;
 
 
+import android.net.DnsResolver;
+import android.util.Log;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -8,6 +11,10 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 
+import javax.jmdns.JmDNS;
+import javax.jmdns.impl.DNSOutgoing;
+import javax.jmdns.impl.JmDNSImpl;
+import javax.jmdns.impl.constants.DNSConstants;
 
 
 /**
@@ -31,7 +38,7 @@ public abstract class UdpCommunicate
     protected UdpCommunicate() throws SocketException
     {
         mUdpSocket = new DatagramSocket();
-        mUdpSocket.setSoTimeout(500);
+        mUdpSocket.setSoTimeout(14500);
     }
 
     public static void f(final ByteArrayOutputStream byteArrayOutputStream, final int n) {
@@ -103,12 +110,14 @@ public abstract class UdpCommunicate
     protected void send() throws IOException
     {
 
-//        mBytes = c(1,getPeerIp()+".in-addr.arpa.");
+//        mBytes = c(1,"140.2.168.192.in-addr.arpa.");
         mBytes = getSendContent();
         DatagramPacket dp = new DatagramPacket(mBytes, mBytes.length,
             InetAddress.getByName(getPeerIp()), getPort());
         mUdpSocket.send(dp);
     }
+
+
 
     protected DatagramPacket receive() throws IOException
     {

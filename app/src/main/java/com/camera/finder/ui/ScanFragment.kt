@@ -7,6 +7,8 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import android.net.nsd.NsdManager
+import android.net.nsd.NsdManager.DiscoveryListener
 import android.net.wifi.SupplicantState
 import android.net.wifi.WifiManager
 import android.os.Build
@@ -19,17 +21,27 @@ import android.widget.FrameLayout.LayoutParams
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
 import com.camera.finder.R
 import com.camera.finder.databinding.FragmentScanBinding
 import com.camera.finder.util.NetInfo
-import com.jaeger.library.StatusBarUtil
 import com.mufe.mvvm.library.base.BaseModel
 import com.mufe.mvvm.library.extension.checkPermissions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.net.DatagramPacket
+import javax.jmdns.JmDNS
+import javax.jmdns.ServiceEvent
+import javax.jmdns.ServiceListener
+import javax.jmdns.ServiceTypeListener
+import javax.jmdns.impl.DNSOutgoing
+import javax.jmdns.impl.DNSQuestion
+
+import javax.jmdns.impl.JmDNSImpl
+import javax.jmdns.impl.ServiceInfoImpl
+import javax.jmdns.impl.constants.DNSRecordClass
+import javax.jmdns.impl.constants.DNSRecordType
 import kotlin.random.Random
 
 
@@ -38,7 +50,10 @@ class ScanFragment() : BaseFragment() {
     private val mVm: ScanViewModel by viewModel()
     private lateinit var connMgr: ConnectivityManager
     private lateinit var net: NetInfo
-
+    private lateinit var nsdManager: NsdManager
+    private val SERVICE_TYPE = "_http._tcp"
+    private var mDiscoveryListener: DiscoveryListener? = null
+    private var mResolverListener: NsdManager.ResolveListener? = null
     @RequiresApi(Build.VERSION_CODES.M)
     private val mSettingsResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -75,6 +90,7 @@ class ScanFragment() : BaseFragment() {
         }
         start()
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
@@ -153,7 +169,17 @@ class ScanFragment() : BaseFragment() {
                 }
             }
         }, filter)
+        val wifi = requireActivity().getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val lock = wifi.createMulticastLock(javaClass.simpleName)
+        lock.setReferenceCounted(false)
+        lock.acquire();
+        nsdManager =requireContext().getSystemService(Context.NSD_SERVICE) as NsdManager
+        createDiscoverListener();
         return mBinding.root
+    }
+
+    private fun createDiscoverListener() {
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -193,6 +219,7 @@ class ScanFragment() : BaseFragment() {
         mVm.listData.observe(viewLifecycleOwner, { listDta ->
             mVm.viewModelScope.launch(Dispatchers.IO) {
                 for (v in listDta) {
+                    Log.e("TAG",v.name.orEmpty())
                     if (v.ipAddress.orEmpty().equals(net.gatewayIp)) {
                         v.deviceType = 0
                     }else{
@@ -222,6 +249,45 @@ class ScanFragment() : BaseFragment() {
 
 
     fun start(){
+//        mVm.viewModelScope.launch(Dispatchers.IO){
+//            val jmdns = JmDNS.create() as JmDNSImpl
+//            jmdns.addServiceTypeListener(object :ServiceTypeListener{
+//                override fun serviceTypeAdded(event: ServiceEvent?) {
+//                    jmdns.addServiceListener(event!!.type,object:ServiceListener{
+//                        override fun serviceAdded(event: ServiceEvent?) {
+//                            Log.e("TAG1","111"+event!!.info.name)
+//                        }
+//
+//                        override fun serviceRemoved(event: ServiceEvent?) {
+//                            Log.e("TAG2","111"+event!!.type.orEmpty())
+//                        }
+//
+//                        override fun serviceResolved(event: ServiceEvent?) {
+//                            Log.e("TAG13","111"+event!!.type.orEmpty())
+//                        }
+//                    })
+//
+//                }
+//
+//                override fun subTypeForServiceTypeAdded(event: ServiceEvent?) {
+//
+//                }
+//            })
+////            val d=DNSOutgoing(0)
+////            d.addQuestion(DNSQuestion.newQuestion("_adb._tcp.local",DNSRecordType.TYPE_PTR,DNSRecordClass.CLASS_IN,false))
+////            d.addQuestion(DNSQuestion.newQuestion("_airplay._tcp.local",DNSRecordType.TYPE_PTR,DNSRecordClass.CLASS_IN,false))
+////            d.addQuestion(DNSQuestion.newQuestion("_raop._tcp.local",DNSRecordType.TYPE_PTR,DNSRecordClass.CLASS_IN,false))
+////            d.addQuestion(DNSQuestion.newQuestion("_services._dns-sd._udp.local",DNSRecordType.TYPE_PTR,DNSRecordClass.CLASS_IN,false))
+////            jmdns.send(d)
+////            val mBuffer = ByteArray(1024)
+////            val dp = DatagramPacket(mBuffer, mBuffer.size)
+////
+////            jmdns.socket.receive(dp)
+////            Log.e("TAG", "net bios receive = " + String(dp.data))
+//            mVm.viewModelScope.launch {
+//                mVm.isScan.value=false
+//            }
+//        }
         val params=mBinding.progress.layoutParams
         params.width=0
         mBinding.progress.layoutParams=params

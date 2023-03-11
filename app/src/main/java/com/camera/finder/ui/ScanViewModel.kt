@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.camera.finder.R
 import com.camera.finder.data.WifiData
+import com.camera.finder.util.NetBios
 import com.camera.finder.util.NetInfo
 import com.camera.finder.util.PreferenceUtil
 import com.camera.finder.util.ScanningUtil
@@ -16,6 +17,7 @@ import com.mufe.mvvm.library.misc.SingleLiveEvent
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import org.opencv.dnn.Net
 
 
 class ScanViewModel(
@@ -117,21 +119,10 @@ class ScanViewModel(
                                     if(!temp.ipAddress.orEmpty().equals(getway.value.orEmpty())&&!temp.ipAddress.orEmpty().equals(address.value.orEmpty())){
                                         temp.deviceType=2
                                     }
-//                                val nb = NetBios(temp.ipAddress)
-//                                try{
-//                                    val deviceName = nb.nbName
-//                                    if(deviceName.isNullOrEmpty()){
-//                                        temp.deviceType=2
-//                                    }
-//                                    Log.e("TAG",deviceName.orEmpty())
-//                                }catch(e:Exception){
-//                                    Log.e("TAG1111",temp.ipAddress.orEmpty())
-//                                }
                                  mutex.withLock {
                                      if(temp.deviceType==2){
                                             viewModelScope.launch(Dispatchers.Main){
                                                 num.value=num.value!!+1
-                                                Log.e("TAG",temp.ipAddress.orEmpty())
                                              }
                                      }
                                     list.add(temp)
@@ -244,7 +235,15 @@ class ScanViewModel(
                 if (!isStop) {
                     progress.value = "100.00"
                     isScan.value = false
-                    mListData.postValue(list)
+                    val tempList= mutableListOf<WifiData>()
+                    val macList= mutableListOf<String>()
+                    for(v in list){
+                        if(!macList.contains(v.ipAddress.orEmpty())){
+                            tempList.add(v)
+                            macList.add(v.ipAddress.orEmpty())
+                        }
+                    }
+                    mListData.postValue(tempList)
                     isFinish.value = true
                 }
             }

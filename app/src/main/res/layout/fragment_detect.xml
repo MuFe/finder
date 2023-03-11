@@ -74,11 +74,11 @@
                             android:src="@drawable/detect_scan" />
 
                         <ImageView
-                            isGone="@{!(vm.isScan||vm.isFinish)}"
+                            isGone="@{vm.state==0}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:src="@{vm.isScan?@drawable/detect_checking:vm.isFinish?vm.isFound?@drawable/detect_warning:@drawable/detect_safe:null}" />
+                            android:src="@{vm.state==1?@drawable/detect_checking:vm.state==2?@drawable/detect_safe:@drawable/detect_warning}" />
                     </FrameLayout>
                 </FrameLayout>
 
@@ -99,7 +99,7 @@
                     android:paddingBottom="30dp">
 
                     <TextView
-                        isGone="@{vm.isScan}"
+                        isGone="@{vm.state!=0}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
@@ -111,7 +111,38 @@
                         android:textSize="14dp" />
 
                     <TextView
-                        isGone="@{vm.isScan}"
+                        isGone="@{vm.state!=3}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:text="@string/detect_warning_tip"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        isGone="@{vm.state!=2}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/detect_safe_tip"
+                        android:textColor="@color/white"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="14dp" />
+
+                    <TextView
+                        isGone="@{vm.state!=2}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:text="@string/detect_safe_tip1"
+                        android:textColor="@color/white"
+                        android:alpha="0.7"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="11dp" />
+
+                    <TextView
+                        isGone="@{vm.state!=0}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
@@ -121,12 +152,33 @@
                         android:onClick="@{()->vm.start()}"
                         android:paddingTop="15dp"
                         android:paddingBottom="15dp"
-                        android:text="@{vm.isFinish?@string/scan_finish_btn:@string/scan_btn}"
+                        android:text="@string/scan_btn"
                         android:textColor="@color/white"
                         android:textSize="18dp" />
 
+                   <LinearLayout
+                       isGone="@{vm.state&lt;2}"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginStart="15dp"
+                       android:layout_marginEnd="15dp"
+                       android:paddingTop="15dp"
+                       android:paddingBottom="15dp"
+                       android:gravity="center"
+                       android:onClick="@{()->vm.start()}"
+                       android:background="@drawable/f416ff9_16">
+                       <TextView
+                           android:layout_width="wrap_content"
+                           android:layout_height="wrap_content"
+                           android:drawableStart="@drawable/restore"
+                           android:drawablePadding="6dp"
+                           android:text="@string/scan_restart_btn"
+                           android:textColor="@color/white"
+                           android:textSize="18dp" />
+                   </LinearLayout>
+
                     <FrameLayout
-                        isGone="@{!vm.isScan}"
+                        isGone="@{vm.state!=1}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
